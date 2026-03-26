@@ -8,7 +8,11 @@ It reads UE and beam measurement data, detects network problems such as congesti
 
 You can access the final UI report here:
 
-- `https://aliadelmahdi.github.io/AI-Driven-5G-Massive-MIMO-Network-Analytics-Automation/`
+- [Final UI Report](https://aliadelmahdi.github.io/AI-Driven-5G-Massive-MIMO-Network-Analytics-Automation/)
+
+Snapshot of the UI:
+
+<img width="1375" height="746" alt="Snapshot of the final UI" src="https://github.com/user-attachments/assets/f0d034a5-77eb-4a47-9411-50f0a4894604" />
 
 ## What This Project Does
 
