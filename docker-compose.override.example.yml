@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  telecom-analytics:
+    build:
+      context: .
+      dockerfile: Dockerfile.telecom
+    container_name: telecom-analytics
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    volumes:
+      - ./:/workspace
+      - ./output:/workspace/output
+      - ./data:/workspace/data
+    ports:
+      - "8010:8010"

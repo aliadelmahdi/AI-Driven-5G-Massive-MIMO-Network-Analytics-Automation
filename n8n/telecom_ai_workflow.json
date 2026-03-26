@@ -1,0 +1,273 @@
+{
+  "name": "Telecom AI Analytics Local MVP",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 120]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 280]
+    },
+    {
+      "parameters": {
+        "path": "telecom-ai-run",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 440]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "boolean": [
+            {"name": "force", "value": true},
+            {"name": "enrich_with_llm", "value": true}
+          ],
+          "number": [
+            {"name": "top_n_incidents", "value": 25}
+          ]
+        }
+      },
+      "id": "manual-config",
+      "name": "Manual Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [500, 120]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "boolean": [
+            {"name": "force", "value": false},
+            {"name": "enrich_with_llm", "value": true}
+          ],
+          "number": [
+            {"name": "top_n_incidents", "value": 20}
+          ]
+        }
+      },
+      "id": "schedule-config",
+      "name": "Schedule Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [500, 280]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": false,
+        "values": {
+          "boolean": [
+            {"name": "force", "value": "={{$json.body?.force ?? false}}"},
+            {"name": "enrich_with_llm", "value": "={{$json.body?.enrich_with_llm ?? true}}"}
+          ],
+          "number": [
+            {"name": "top_n_incidents", "value": "={{$json.body?.top_n_incidents ?? 25}}"}
+          ]
+        }
+      },
+      "id": "webhook-config",
+      "name": "Webhook Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [500, 440]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8010/analyze-and-enrich",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {
+          "timeout": 900000
+        }
+      },
+      "id": "manual-http",
+      "name": "Run Analytics Manual",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, 120]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8010/analyze-and-enrich",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {
+          "timeout": 900000
+        }
+      },
+      "id": "schedule-http",
+      "name": "Run Analytics Schedule",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, 280]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8010/analyze-and-enrich",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {
+          "timeout": 900000
+        }
+      },
+      "id": "webhook-http",
+      "name": "Run Analytics Webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, 440]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://host.docker.internal:8010/data-source-status",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "manual-db-check",
+      "name": "Fetch Measurements From Database Manual",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, 40]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://host.docker.internal:8010/data-source-status",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "schedule-db-check",
+      "name": "Fetch Measurements From Database Schedule",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, 200]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://host.docker.internal:8010/data-source-status",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "webhook-db-check",
+      "name": "Fetch Measurements From Database Webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, 360]
+    },
+    {
+      "parameters": {
+        "jsCode": "const report = $json.report_path || 'output/top_incidents_report.md';\nreturn [{ json: { notification_text: `Telecom AI run complete. Source: MySQL. Incidents: ${$json.incidents}, LLM used: ${$json.llm_used}, report: ${report}` } }];"
+      },
+      "id": "manual-format",
+      "name": "Format Manual Notification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1040, 120]
+    },
+    {
+      "parameters": {
+        "jsCode": "const report = $json.report_path || 'output/top_incidents_report.md';\nreturn [{ json: { notification_text: `Scheduled telecom AI run complete. Incidents: ${$json.incidents}, LLM used: ${$json.llm_used}, report: ${report}` } }];"
+      },
+      "id": "schedule-format",
+      "name": "Format Schedule Notification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1040, 280]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'ok', message: $json.message, incidents: $json.incidents, llm_used: $json.llm_used, report_path: $json.report_path } }}"
+      },
+      "id": "respond-webhook",
+      "name": "Respond Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1040, 440]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [[{"node": "Manual Config", "type": "main", "index": 0}]]
+    },
+    "Schedule Trigger": {
+      "main": [[{"node": "Schedule Config", "type": "main", "index": 0}]]
+    },
+    "Webhook Trigger": {
+      "main": [[{"node": "Webhook Config", "type": "main", "index": 0}]]
+    },
+    "Manual Config": {
+      "main": [[{"node": "Fetch Measurements From Database Manual", "type": "main", "index": 0}]]
+    },
+    "Schedule Config": {
+      "main": [[{"node": "Fetch Measurements From Database Schedule", "type": "main", "index": 0}]]
+    },
+    "Webhook Config": {
+      "main": [[{"node": "Fetch Measurements From Database Webhook", "type": "main", "index": 0}]]
+    },
+    "Fetch Measurements From Database Manual": {
+      "main": [[{"node": "Run Analytics Manual", "type": "main", "index": 0}]]
+    },
+    "Fetch Measurements From Database Schedule": {
+      "main": [[{"node": "Run Analytics Schedule", "type": "main", "index": 0}]]
+    },
+    "Fetch Measurements From Database Webhook": {
+      "main": [[{"node": "Run Analytics Webhook", "type": "main", "index": 0}]]
+    },
+    "Run Analytics Manual": {
+      "main": [[{"node": "Format Manual Notification", "type": "main", "index": 0}]]
+    },
+    "Run Analytics Schedule": {
+      "main": [[{"node": "Format Schedule Notification", "type": "main", "index": 0}]]
+    },
+    "Run Analytics Webhook": {
+      "main": [[{"node": "Respond Webhook", "type": "main", "index": 0}]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "telecom-ai-local-v1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

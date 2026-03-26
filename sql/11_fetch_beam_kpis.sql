@@ -1,0 +1,23 @@
+SELECT
+  window_start_utc,
+  cell_id,
+  beam_id,
+  active_ue_count,
+  avg_rsrp_dbm,
+  avg_rsrq_db,
+  avg_sinr_db,
+  prb_utilization_pct,
+  beam_utilization_pct,
+  dl_retransmission_pct,
+  scheduled_dl_mbps,
+  scheduled_ul_mbps,
+  avg_bler_dl_pct,
+  handover_attempts,
+  handover_failures,
+  beam_switch_success_rate_pct,
+  radio_link_failure_count,
+  cell_edge_ue_ratio,
+  interference_score,
+  power_headroom_db,
+  scheduler_pressure_score
+FROM beam_kpis;

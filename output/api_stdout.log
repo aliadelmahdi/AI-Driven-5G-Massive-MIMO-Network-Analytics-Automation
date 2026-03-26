@@ -1,0 +1,10 @@
+[status] Starting API server on 0.0.0.0:8010 | ETA 2-5s
+INFO:     127.0.0.1:59376 - "GET /dashboard-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59376 - "GET /dashboard-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59377 - "GET /data-source-status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59375 - "GET /api/dashboard-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55078 - "GET /dashboard-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58882 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55078 - "GET /api/dashboard-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50320 - "GET /dashboard-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50320 - "GET /api/dashboard-data HTTP/1.1" 200 OK
