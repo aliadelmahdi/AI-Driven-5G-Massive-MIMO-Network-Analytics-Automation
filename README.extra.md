@@ -1,6 +1,6 @@
 # Telecom Analytics Project
 
-For a shorter version of this guide, see [README.summary.md](README.summary.md).
+For a shorter version of this guide, see [README.md](README.md).
 
 This project is a simple telecom analytics system built with Python, MySQL, FastAPI, n8n, and a local Ollama model.
 
