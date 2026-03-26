@@ -186,23 +186,7 @@ Loaded beam KPI rows: 96768
 [status] Classifying incidents and severity | ETA 2-5s
 [status] Selecting top 25 incidents for LLM enrichment | ETA 1-3s
 [status] Running Ollama enrichment for 25 incidents | ETA 25-75 min
-[status] Ollama incident 1/25 | ETA 24-72 min
-[status] Ollama incident 2/25 | ETA 23-69 min
-[status] Ollama incident 3/25 | ETA 22-66 min
-[status] Ollama incident 4/25 | ETA 21-63 min
-[status] Ollama incident 5/25 | ETA 20-60 min
-[status] Ollama incident 6/25 | ETA 19-57 min
-[status] Ollama incident 7/25 | ETA 18-54 min
-[status] Ollama incident 8/25 | ETA 17-51 min
-[status] Ollama incident 9/25 | ETA 16-48 min
-[status] Ollama incident 10/25 | ETA 15-45 min
-[status] Ollama incident 11/25 | ETA 14-42 min
-[status] Ollama incident 12/25 | ETA 13-39 min
-[status] Ollama incident 13/25 | ETA 12-36 min
-[status] Ollama incident 14/25 | ETA 11-33 min
-[status] Ollama incident 15/25 | ETA 10-30 min
-[status] Ollama incident 16/25 | ETA 9-27 min
-[status] Ollama incident 17/25 | ETA 8-24 min
+...
 [status] Ollama incident 18/25 | ETA 7-21 min
 [status] Ollama incident 19/25 | ETA 6-18 min
 [status] Ollama incident 20/25 | ETA 5-15 min
@@ -245,26 +229,6 @@ INFO:     127.0.0.1:56411 - "GET /openapi.json HTTP/1.1" 200 OK
 INFO:     127.0.0.1:60641 - "GET /health HTTP/1.1" 200 OK
 ```
 
-## Manual Commands
-
-Load the CSV files into MySQL:
-
-```powershell
-.\.venv\Scripts\python.exe main.py load-db --force-reload
-```
-
-Run the analysis only:
-
-```powershell
-.\.venv\Scripts\python.exe main.py analyze --enrich-with-llm --top-n-incidents 25
-```
-
-Start the API and dashboard:
-
-```powershell
-.\.venv\Scripts\python.exe main.py serve --host 0.0.0.0 --port 8010
-```
-
 ## Local URLs
 
 - Dashboard UI: `http://127.0.0.1:8010/dashboard-data`
@@ -273,44 +237,6 @@ Start the API and dashboard:
 - API docs: `http://127.0.0.1:8010/docs`
 - Database status: `http://127.0.0.1:8010/data-source-status`
 - n8n UI: `http://127.0.0.1:5678`
-
-## Public GitHub Dashboard Link
-
-Because `127.0.0.1` only works on your own machine, other users cannot open your local dashboard directly.
-
-This project now supports a static GitHub Pages version of the dashboard, so users can open the latest exported UI without running the API on your PC.
-
-Expected public URL for this repository:
-
-- `https://aliadelmahdi.github.io/AI-Driven-5G-Massive-MIMO-Network-Analytics---Automation/`
-
-To refresh the published dashboard snapshot:
-
-```powershell
-make export-dashboard
-git add docs README.md .github/workflows/deploy-dashboard.yml Makefile
-git commit -m "Publish dashboard snapshot to GitHub Pages"
-git push
-```
-
-What this does:
-
-1. Creates `docs/index.html` as a static version of the dashboard UI.
-2. Creates `docs/dashboard-data.json` from the latest `output/incidents_summary.csv` and LLM enrichment files.
-3. Lets GitHub Pages host the dashboard so anyone with the link can open it.
-
-## Enable GitHub Pages Once
-
-In the GitHub repository:
-
-1. Open `Settings`.
-2. Open `Pages`.
-3. Under `Build and deployment`, choose `GitHub Actions`.
-4. Push this repository to GitHub.
-
-After that, every push to `main` or `master` can redeploy the static dashboard from the `docs/` folder.
-
-If you update the analysis results later, run `make export-dashboard` again and push the changed `docs/` files so the public dashboard shows the new output.
 
 ## Output Files
 
