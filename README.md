@@ -8,6 +8,10 @@ This project is a telecom analytics system built with Python, MySQL, FastAPI, `n
 
 It reads sample telecom KPI data, detects network issues such as congestion, interference, and coverage problems, and shows the results through a dashboard and API.
 
+You can access the final UI report here:
+
+- `https://aliadelmahdi.github.io/AI-Driven-5G-Massive-MIMO-Network-Analytics-Automation/`
+
 ## Main Features
 
 - Loads telecom CSV datasets into MySQL

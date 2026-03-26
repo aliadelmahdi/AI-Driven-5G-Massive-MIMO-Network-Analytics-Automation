@@ -6,6 +6,10 @@ This project is a simple telecom analytics system built with Python, MySQL, Fast
 
 It reads UE and beam measurement data, detects network problems such as congestion, interference, and coverage issues, and shows the results in a local dashboard and API.
 
+You can access the final UI report here:
+
+- `https://aliadelmahdi.github.io/AI-Driven-5G-Massive-MIMO-Network-Analytics-Automation/`
+
 ## What This Project Does
 
 - It processes telecom KPI data such as `RSRP` and `SINR` from a local MySQL database by using SQL queries.
