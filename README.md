@@ -1,6 +1,6 @@
 # Telecom Analytics Project Summary
 
-For the full documentation, setup details, and example output, see [README.md](README.md).
+For the full documentation, setup details, and example output, see [README.extra.md](README.extra.md).
 
 ## Overview
 
